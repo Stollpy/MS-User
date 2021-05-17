@@ -1,3 +1,9 @@
 #index:
 #    path: /
 #    controller: App\Controller\DefaultController::index
+api_login_check:
+  path: /api/users/login
+  methods: POST
+api_logout:
+  path: /api/users/logout
+  methods: POST

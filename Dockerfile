@@ -5,7 +5,7 @@ WORKDIR /var/www/html/user
 RUN echo "ServerName localhost" >> /etc/apache2/apache2.conf
 
 # Update for System
-RUN apt-get update && apt list --upgradable && apt-get install -y --no-install-recommends locales apt-utils git libicu-dev g++ libpng-dev libxml2-dev libzip-dev libonig-dev libxslt-dev;
+RUN apt-get update && apt list --upgradable && apt-get install -y --no-install-recommends locales apt-utils vim git libicu-dev g++ libpng-dev libxml2-dev libzip-dev libonig-dev libxslt-dev;
 
 RUN echo "en_US.UTF-8 UTF-8" > /etc/locale.gen && \
     echo "fr_FR.UTF-8 UTF-8" >> /etc/locale.gen && \
