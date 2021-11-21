@@ -2,8 +2,5 @@
 #    path: /
 #    controller: App\Controller\DefaultController::index
 api_login_check:
-  path: /api/users/login
-  methods: POST
-api_logout:
-  path: /api/users/logout
+  path: /ms-user/login
   methods: POST

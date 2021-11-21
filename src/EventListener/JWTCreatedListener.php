@@ -40,7 +40,7 @@ class JWTCreatedListener
         $user = $this->userRepository->find($this->security->getUser());
 
         $payload = $event->getData();
-        $payload['id'] = $user->getId();
+        $payload['data']['user_id'] = $user->getId();
 
         $event->setData($payload);
     }

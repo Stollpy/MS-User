@@ -1,0 +1,5 @@
+HOSTNAME=api.pensebete.com
+PATH_PREFIX=/ms-user
+CERT_RESOLVER_NAME=pensebete
+MYSQL_ROOT_PASSWORD=root
+MYSQL_DATABASE=ms-user

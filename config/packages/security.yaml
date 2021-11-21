@@ -3,9 +3,8 @@ security:
         App\Entity\User:
             algorithm: auto
 
-    # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
     providers:
-        # used to reload user from session & other features (e.g. switch_user)
+
         app_user_provider:
             entity:
                 class: App\Entity\User
@@ -16,21 +15,24 @@ security:
             security: false
 
         login:
-            pattern: ^/api/users/login
+            pattern: ^/ms-user/login
             provider: app_user_provider
             stateless: true
             anonymous: true
-            logout:
-                path: /api/users/logout
             json_login:
-                check_path: /api/users/login
+                check_path: /ms-user/login
                 username_path: email
                 password_path: password
                 success_handler: lexik_jwt_authentication.handler.authentication_success
                 failure_handler: lexik_jwt_authentication.handler.authentication_failure
 
+        user_create:
+            pattern: ^/ms-user/users
+            methods: POST,
+            anonymous: true
+
         api:
-            pattern: ^/api/users
+            pattern: ^/ms-user
             stateless: true
             anonymous: false
             provider: app_user_provider
@@ -38,14 +40,7 @@ security:
                 authenticators:
                     - lexik_jwt_authentication.jwt_token_authenticator
 
-            # activate different ways to authenticate
-            # https://symfony.com/doc/current/security.html#firewalls-authentication
-
-            # https://symfony.com/doc/current/security/impersonating_user.html
-            # switch_user: true
-
-    # Easy way to control access for large sections of your site
-    # Note: Only the *first* access control that matches will be used
     access_control:
-        - { path: ^/api/users/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/api/users, roles: IS_AUTHENTICATED_FULLY }
+        - { path: ^/ms-user/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/ms-user/users, methods:[POST], roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/ms-user, roles: IS_AUTHENTICATED_FULLY }

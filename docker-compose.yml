@@ -1,0 +1,51 @@
+version: '3.4'
+
+services:
+
+  # Network User
+
+  # BDD #
+  db-user:
+    image: mysql
+    container_name: db_user
+    restart: always
+    volumes:
+      - db-user:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+    ports:
+      - '33061:3306'
+    networks:
+      - backend_user
+
+  # Micro-Service #
+  ms-user:
+    build: .
+    container_name: ms-user
+    depends_on:
+      - db-user
+    expose:
+      - '80'
+    volumes:
+      - ./:/var/www/html/user
+      - ./vhosts:/etc/apache2/sites-enabled
+    restart: always
+    labels:
+      - traefik.docker.network=backend_user
+      - traefik.enable=true
+      - traefik.http.routers.ms-user.entrypoints=web # in dev
+# in prod
+#      - traefik.http.routers.ms-user.entrypoints=websecure
+#      - traefik.http.routers.ms-user.tls.certresolver=${CERT_RESOLVER_NAME}
+      - traefik.http.routers.ms-user.rule=HOST(`${HOSTNAME}`) && PathPrefix(`${PATH_PREFIX}`)
+    networks:
+      - backend_user
+
+networks:
+
+  backend_user:
+    driver: bridge
+
+volumes:
+  db-user:
